@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Price App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+        h1 {
+            margin-bottom: 40px;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Live Crypto Prices</h1>
+
+<div class="card">
+    <h2>Bitcoin (BTC)</h2>
+    <div class="price" id="btc">Loading...</div>
+</div>
+
+<div class="card">
+    <h2>Ethereum (ETH)</h2>
+    <div class="price" id="eth">Loading...</div>
+</div>
+
+<script>
+async function fetchPrices() {
+    try {
+        const response = await fetch('/price');
+        const data = await response.json();
+
+        document.getElementById('btc').innerText = "$ " + data.bitcoin.usd;
+        document.getElementById('eth').innerText = "$ " + data.ethereum.usd;
+    } catch (error) {
+        console.log("Error fetching prices:", error);
+    }
+}
+
+fetchPrices();
+setInterval(fetchPrices, 5000);
+</script>
+
+</body>
+</html>
